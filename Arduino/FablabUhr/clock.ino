@@ -1,4 +1,6 @@
 //draw hands of clock
+#define TIMEZONE 1 //GMT +1
+
 
 #define HOURTAIL 3
 #define MINUTETAIL 5
@@ -110,6 +112,40 @@ void drawHands(uint8_t hourhue, uint8_t minhue, uint8_t sechue, uint8_t tail)
       addcolor(secondpixel,  0,    hsv_to_rgb (sechue, 255,((int)255*(SECONDTAIL-i)/SECONDTAIL)));
     }
     }
+}
 
+//check if the input is in european summer or winter time (daylight saving time checker)
+boolean isSummertime(tmElements_t &tm)
+{
+  if (tm.Month < 3 || tm.Month > 10) return false; // keine Sommerzeit in Jan, Feb, Nov, Dez
+  if (tm.Month > 3 && tm.Month < 10) return true; // Sommerzeit in Apr, Mai, Jun, Jul, Aug, Sep
+
+  //Umstellung auf Sommerzeit am letzten Sonntag im März (Wday ist Wochentag, sonntag ist 1)
+  if (tm.Month == 3)
+  {
+    if ((tm.Day - (tm.Wday - 1) >= 25) && tm.Hour > 1) return true;
+    else return false;
+  }
+  else if (tm.Month == 10)
+  {
+    if ((tm.Day - (tm.Wday - 1) >= 25) && tm.Hour > 2) return false;
+    else return true;
+  }
+
+  return false; //line should never be reached
+}
+
+
+//get UTC time from RTC and offset the timezone and summertime, use this as a sync provider for the time library
+time_t getRTCtime(void)
+{
+  time_t RTCtime = RTC.get() + (TIMEZONE) * 3600;
+  tmElements_t localTime;
+  breakTime(RTCtime, localTime); //break the Time into year, month, day, etc.
+  if (isSummertime(localTime)) //check if the time in the timezone is summer or winter time
+  {
+    RTCtime += 3600; //add an hour if summer time
+  }
+  return RTCtime ;
 
 }
