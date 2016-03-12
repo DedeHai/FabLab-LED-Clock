@@ -11,12 +11,12 @@ void drawFace(RGB tickcolor)
   uint8_t i;
   for(i=0; i<12;i++)
   {
-    
-       pixelmatrix.setColor(60 - ((i*5 + 30) % 61),  0, tickcolor);
-  
-    }
-  
+
+    pixelmatrix.setColor(60 - ((i*5 + 30) % 61),  0, tickcolor);
+
   }
+
+}
 
 void drawHands(RGB hourcolor, RGB mincolor, RGB seccolor, uint8_t tail)
 {
@@ -44,24 +44,24 @@ void drawHands(RGB hourcolor, RGB mincolor, RGB seccolor, uint8_t tail)
       hourpixel++;
       hourpixel = hourpixel % 60;
       addcolor(hourpixel,  0,  fadecolorRGB(i, HOURTAIL, hourcolor,black));
-     
+
     }
-    
+
     for (i = 1; i <= MINUTETAIL; i++)
     {
       minutepixel++;
       minutepixel = minutepixel % 60;
       addcolor(minutepixel,  0,  fadecolorRGB(i, MINUTETAIL, mincolor,black));
     }
-    
-    
+
+
     for (i = 1; i <= SECONDTAIL; i++)
     {
       secondpixel++;
       secondpixel = secondpixel % 60;
       addcolor(secondpixel,  0,  fadecolorRGB(i, SECONDTAIL, seccolor,black));
     }
-    }
+  }
 
 
 }
@@ -94,24 +94,24 @@ void drawHands(uint8_t hourhue, uint8_t minhue, uint8_t sechue, uint8_t tail)
       hourpixel++;
       hourpixel = hourpixel % 60;
       addcolor(hourpixel,  0,  hsv_to_rgb (hourhue, 255,((int)255*(HOURTAIL-i)/HOURTAIL)));
-     
+
     }
-    
+
     for (i = 1; i <= MINUTETAIL; i++)
     {
       minutepixel++;
       minutepixel = minutepixel % 60;
       addcolor(minutepixel,  0,  hsv_to_rgb (minhue, 255,((int)255*(MINUTETAIL-i)/MINUTETAIL)));
     }
-    
-    
+
+
     for (i = 1; i <= SECONDTAIL; i++)
     {
       secondpixel++;
       secondpixel = secondpixel % 60;
       addcolor(secondpixel,  0,    hsv_to_rgb (sechue, 255,((int)255*(SECONDTAIL-i)/SECONDTAIL)));
     }
-    }
+  }
 }
 
 //check if the input is in european summer or winter time (daylight saving time checker)
@@ -149,3 +149,4 @@ time_t getRTCtime(void)
   return RTCtime ;
 
 }
+

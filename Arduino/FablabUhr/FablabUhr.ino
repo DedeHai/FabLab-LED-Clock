@@ -47,7 +47,7 @@ void setup()
   else
     Serial.println("RTC has set the system time");
 
-  setSyncInterval(60);    //zeit alle 60 sekunden synchronisieren mit RTC modul
+  setSyncInterval(1);    //zeit alle 5 sekunden synchronisieren mit RTC modul
 
   pixelmatrix.clear();
   Serial.println("setup done");
@@ -56,7 +56,7 @@ float starthue = 0;
 void loop()
 {
   pixelmatrix.clear();
-  starthue += 0.2;
+  starthue += 0.15;
   if(starthue > 255) starthue -= 255; //prevent overflow
   RGB result;
   float hue = starthue;
@@ -81,11 +81,11 @@ void loop()
    RGB secondcolor = hsv_to_rgb (512/3, 255, 255);
    drawHands(hourcolor, minutecolor, secondcolor, 1);
    */
-  drawFace(hsv_to_rgb (hue, 200, 100));
+  drawFace(hsv_to_rgb (hue, 200, 60));
   drawHands(2, 40, 110, 1);
 
   pixelmatrix.sendColors();
-  //delay(100);
+  delay(10);
 }
 
 
